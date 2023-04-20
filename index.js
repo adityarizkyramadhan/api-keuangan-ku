@@ -4,6 +4,8 @@ const cors = require("cors");
 const express = require('express')
 const app = express()
 
+const response = require('./utils/response')
+
 app.use(
     cors({
         //array of allowed origins
@@ -35,7 +37,7 @@ app.use(
 app.use(bodyParser.json());
 
 app.get('/', async (req, res) => {
-    return res.send('Hello World!')
+    return response.success(res, 200, null)
 })
 
 app.listen(process.env.APP_PORT, () => {
