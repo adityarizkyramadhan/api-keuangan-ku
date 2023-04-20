@@ -1,6 +1,6 @@
 //jwt middleware
 const jwt = require("jsonwebtoken");
-const env = process.env;
+
 
 const response = require('../utils/response');
 const { StatusCodes } = require("http-status-codes");
@@ -9,7 +9,7 @@ const generateToken = (userId) => {
     const payload = {
         id: userId,
     };
-    return jwt.sign(payload, env.JWT_SECRET, {
+    return jwt.sign(payload, process.env.APP_JWT_SECRET, {
         expiresIn: "48h",
     });
 }
