@@ -5,7 +5,7 @@ var objReturn = {
     data: null
 }
 
-const createUser = async ({ username, password, name }) => {
+const create = async ({ username, password, name }) => {
     try {
         const user = await userKeuangan.create({ username, password, name })
         return { error: null, data: user };
@@ -27,5 +27,10 @@ const findByUsername = async (username) => {
         console.error(error);
         return { error: error, data: null };
     }
+}
+
+module.exports = {
+    create,
+    findByUsername
 }
 
