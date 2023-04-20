@@ -53,8 +53,8 @@ const UangSimpanan = sequelize.define('uang_simpanan', {
     paranoid: true
 });
 
-User.hasMany(UangSimpanan);
-UangSimpanan.belongsTo(User);
+userKeuangan.hasMany(UangSimpanan);
+UangSimpanan.belongsTo(userKeuangan);
 
 module.exports = {
     userKeuangan,
