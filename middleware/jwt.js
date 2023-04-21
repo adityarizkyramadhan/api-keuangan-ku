@@ -21,11 +21,11 @@ const validateToken = async (req, res, done) => {
         return response.fail(res, StatusCodes.FORBIDDEN, "no token provided")
     }
     try {
-        const decoded = jwt.verify(tokenAuth, env.JWT_SECRET);
+        const decoded = jwt.verify(tokenAuth, process.env.APP_JWT_SECRET);
         req.user = decoded;
         done();
     } catch (err) {
-        return response.fail(res, StatusCodes.UNAUTHORIZED, err)
+        return response.fail(res, StatusCodes.UNAUTHORIZED, "fail decode")
     }
 
 }
