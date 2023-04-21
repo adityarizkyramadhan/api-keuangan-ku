@@ -1,9 +1,10 @@
 const { Sequelize } = require('sequelize');
-
+const pg = require('pg');
 const dotenv = require('dotenv');
 const driver = process.env
 
-var opts = {
+
+const sequelize = new Sequelize(`postgres://postgres:${driver.DB_PASSWORD}@${driver.DB_HOST}:${driver.DB_PORT}/postgres`, {
     define: {
         freezeTableName: true
     },
@@ -12,10 +13,9 @@ var opts = {
         min: 0,
         acquire: 30000,
         idle: 10000
-    }
-}
-
-const sequelize = new Sequelize(`postgres://postgres:${driver.DB_PASSWORD}@${driver.DB_HOST}:${driver.DB_PORT}/postgres`, opts)
+    },
+    dialectModule : pg
+})
 
 module.exports = {
     sequelize
