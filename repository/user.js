@@ -1,9 +1,6 @@
 const { userKeuangan } = require('../model/entity.model')
 
-var objReturn = {
-    error: null,
-    data: null
-}
+
 
 const create = async ({ username, password, name }) => {
     try {

@@ -1,6 +1,5 @@
 const { Sequelize } = require('sequelize');
 const pg = require('pg');
-const dotenv = require('dotenv');
 const driver = process.env
 
 
