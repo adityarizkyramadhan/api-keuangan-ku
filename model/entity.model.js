@@ -26,7 +26,7 @@ const userKeuangan = sequelize.define('user_keuangan', {
     paranoid: true
 })
 
-const UangSimpanan = sequelize.define('uang_simpanan', {
+const uangSimpanan = sequelize.define('uang_simpanan', {
     id: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
@@ -53,10 +53,10 @@ const UangSimpanan = sequelize.define('uang_simpanan', {
     paranoid: true
 });
 
-userKeuangan.hasMany(UangSimpanan);
-UangSimpanan.belongsTo(userKeuangan);
+userKeuangan.hasMany(uangSimpanan);
+uangSimpanan.belongsTo(userKeuangan);
 
 module.exports = {
     userKeuangan,
-    UangSimpanan
+    uangSimpanan
 }
