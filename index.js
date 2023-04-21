@@ -5,8 +5,10 @@ const express = require('express')
 const app = express()
 
 const { sequelize } = require('./utils/database')
-const response = require('./utils/response')
 const { userRouter } = require('./controller/user')
+const { uangRouter } = require('./controller/uangsimpanan')
+
+const response = require('./utils/response')
 
 app.use(cors())
 
@@ -23,6 +25,8 @@ sequelize.sync({
 })
 
 app.use('/user', userRouter)
+
+app.use('/uang', uangRouter)
 
 app.get('/', async (req, res) => {
     return response.success(res, 200, null)

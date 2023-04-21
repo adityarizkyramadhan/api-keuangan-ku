@@ -26,7 +26,7 @@ const userKeuangan = sequelize.define('user_keuangan', {
     paranoid: true
 })
 
-const uangSimpanan = sequelize.define('uang_simpanan', {
+const uangPengeluaran = sequelize.define('uang_pengeluaran', {
     id: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
@@ -36,16 +36,8 @@ const uangSimpanan = sequelize.define('uang_simpanan', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    tanggal: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    bulan: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    tahun: {
-        type: DataTypes.INTEGER,
+    detail: {
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {
@@ -53,10 +45,11 @@ const uangSimpanan = sequelize.define('uang_simpanan', {
     paranoid: true
 });
 
-userKeuangan.hasMany(uangSimpanan);
-uangSimpanan.belongsTo(userKeuangan);
+
+userKeuangan.hasMany(uangPengeluaran);
+uangPengeluaran.belongsTo(userKeuangan);
 
 module.exports = {
     userKeuangan,
-    uangSimpanan
+    uangPengeluaran
 }
