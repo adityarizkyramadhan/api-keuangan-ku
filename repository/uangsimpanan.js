@@ -33,7 +33,21 @@ const findOneWeekAgo = async (userKeuanganId) => {
                 is_reset: false
             }
         });
-        return { error: null, data: records };
+        let total = 0;
+        for (let i = 0; i < records.length; i++) {
+            total += records[i].jumlah;
+        }
+        total = total.toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+        })
+
+        return {
+            error: null, data: {
+                records,
+                total
+            }
+        };
     } catch (error) {
         console.error(error);
         return { error: error, data: null };
@@ -42,13 +56,13 @@ const findOneWeekAgo = async (userKeuanganId) => {
 
 
 //reset one week ago
-const reset = async (userKeuanganId ) => {
+const reset = async (userKeuanganId) => {
     try {
         const startDate = new Date();
         startDate.setDate(startDate.getDate() - 7);
         const result = await sequelize.transaction(async (t) => {
             const uang = await uangPengeluaran.update({
-                is_reset : true
+                is_reset: true
             }, {
                 where: {
                     createdAt: {
