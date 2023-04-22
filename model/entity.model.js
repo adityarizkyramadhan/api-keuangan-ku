@@ -39,6 +39,10 @@ const uangPengeluaran = sequelize.define('uang_pengeluaran', {
     detail: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    is_reset : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     timestamps: true,

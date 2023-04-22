@@ -21,7 +21,7 @@ app.use(
 app.use(bodyParser.json());
 
 sequelize.sync({
-    alter: false
+    alter: true
 })
 
 app.use('/user', userRouter)

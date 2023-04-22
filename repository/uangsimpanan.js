@@ -29,7 +29,8 @@ const findOneWeekAgo = async (userKeuanganId) => {
                     [Op.gte]: startDate,
                     [Op.lte]: new Date()
                 },
-                userKeuanganId
+                userKeuanganId,
+                is_reset: false
             }
         });
         return { error: null, data: records };
@@ -40,22 +41,26 @@ const findOneWeekAgo = async (userKeuanganId) => {
 }
 
 
-//find by one month
-const findOneMonthkAgo = async () => {
+//reset one week ago
+const reset = async (userKeuanganId ) => {
     try {
-        const oneWeekAgo = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));
-
-        // Query the database using Sequelize
-        const records = await sequelize.query(
-            'SELECT * FROM uang_pengeluaran WHERE createdAt >= :startDate AND date <= :endDate',
-            {
-                replacements: {
-                    startDate: oneWeekAgo,
-                    endDate: new Date()
-                },
-            }
-        );
-        return { error: null, data: records };
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 7);
+        const result = await sequelize.transaction(async (t) => {
+            const uang = await uangPengeluaran.update({
+                is_reset : true
+            }, {
+                where: {
+                    createdAt: {
+                        [Op.gte]: startDate,
+                        [Op.lte]: new Date()
+                    },
+                    userKeuanganId,
+                }
+            }, { transaction: t })
+            return uang
+        })
+        return { error: null, data: result };
     } catch (error) {
         console.error(error);
         return { error: error, data: null };
@@ -63,21 +68,21 @@ const findOneMonthkAgo = async () => {
 }
 
 
-//find by one years
-const findOneYearkAgo = async () => {
+//find by one month
+const findOneMonthAgo = async () => {
     try {
-        const oneWeekAgo = new Date(new Date().getTime() - (365 * 24 * 60 * 60 * 1000));
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 30);
 
-        // Query the database using Sequelize
-        const records = await sequelize.query(
-            'SELECT * FROM uang_pengeluaran WHERE createdAt >= :startDate AND date <= :endDate',
-            {
-                replacements: {
-                    startDate: oneWeekAgo,
-                    endDate: new Date()
+        const records = await uangPengeluaran.findAll({
+            where: {
+                createdAt: {
+                    [Op.gte]: startDate,
+                    [Op.lte]: new Date()
                 },
+                userKeuanganId
             }
-        );
+        });
         return { error: null, data: records };
     } catch (error) {
         console.error(error);
@@ -90,6 +95,6 @@ const findOneYearkAgo = async () => {
 module.exports = {
     create,
     findOneWeekAgo,
-    findOneMonthkAgo,
-    findOneYearkAgo
+    findOneMonthAgo,
+    reset
 }
